@@ -27,10 +27,10 @@ ChromeOSFetch is designed for the ChromeOS developer shell and avoids needing a 
 
 ## Install
 
-Download the script into your current directory:
+Download `chromeosfetch.sh` from the **latest release** into your current directory:
 
 ```bash
-curl -L -o chromeosfetch.sh https://raw.githubusercontent.com/Kaydn913/ChromeOSFetch/main/chromeosfetch.sh
+curl -L -o chromeosfetch.sh https://github.com/Kaydn913/ChromeOSFetch/releases/latest/download/chromeosfetch.sh
 ```
 
 ## Run
