@@ -1,5 +1,6 @@
 #!/bin/bash
 # chromeosfetch - Bash-only system fetch for ChromeOS
+# Logo style adapted from Neofetch (MIT): https://github.com/dylanaraps/neofetch
 
 R=$'\033[0m'
 RED=$'\033[1;31m'
@@ -17,7 +18,6 @@ if [ -r /etc/lsb-release ]; then
     os_version="$(grep '^CHROMEOS_RELEASE_VERSION=' /etc/lsb-release | cut -d= -f2-)"
     board="$(grep '^CHROMEOS_RELEASE_BOARD=' /etc/lsb-release | cut -d= -f2-)"
 fi
-
 [ -z "$os_name" ] && os_name="ChromeOS"
 
 kernel="$(uname -r)"
@@ -72,18 +72,45 @@ done
 disk="$(df -h / 2>/dev/null | awk 'NR==2 {print $3 " / " $2 " (" $5 ")"}')"
 [ -z "$disk" ] && disk="Unknown"
 
-# Chrome-style ASCII logo + system info
-printf "${RED}           .--------.            ${W}%s@%s${R}\n" "$user" "$host"
-printf "${RED}       .-''##########''-.        ${W}------------------------${R}\n"
-printf "${RED}     .'################${Y}##'.      ${B}OS${R}: %s %s (%s)\n" "$os_name" "$os_version" "$arch"
-printf "${RED}    /############${Y}##########\\     ${B}Host${R}: %s\n" "$hwid"
-printf "${RED}   /########${W}.------.${Y}########\\    ${G}Kernel${R}: %s\n" "$kernel"
-printf "${G}  |######${RED}##${W}/${B}########${W}\\${Y}#######|   ${G}Uptime${R}: %s\n" "$uptime"
-printf "${G}  |########${W}|${B}########${W}|${Y}#######|   ${Y}Shell${R}: %s\n" "$shell_name"
-printf "${G}  |########${W}\\${B}########${W}/${Y}#######|   ${Y}CPU${R}: %s\n" "$cpu"
-printf "${G}   \\########${W}'------'${Y}#######/    ${C}GPU${R}: %s\n" "$gpu"
-printf "${G}    \\############${Y}#########/     ${C}Memory${R}: %s\n" "$memory"
-printf "${G}     '.##################.'      ${B}Display${R}: %s\n" "$displays"
-printf "${G}       '-.############.-'        ${B}Battery${R}: %s\n" "$battery"
-printf "${G}           '--------'            ${G}Disk${R}: %s\n" "$disk"
-printf "${R}\n"
+row() {
+    # $1 logo, $2 info color, $3 info text. Put info at a fixed terminal column.
+    printf '%b\033[42G%b%s%b\n' "$1" "$2" "$3" "$R"
+}
+
+l1="${RED}            .,:loool:,.${R}"
+l2="${RED}         .,coooooooooooooc,.${R}"
+l3="${RED}      .,lllllllllllllllllllll,.${R}"
+l4="${RED}     ;ccccccccccccccccccccccccc;${R}"
+l5="${G}   '${RED}ccccccccccccccccccccccccccccc.${R}"
+l6="${G}  ,oo${RED}c::::::::okO${W}000${Y}0OOkkkkkkkkkkk:${R}"
+l7="${G} .ooool${RED};;;;:x${W}K0${B}kxxxxxk${W}0X${Y}K0000000000.${R}"
+l8="${G} :oooool${RED};,;O${W}K${B}ddddddddddd${W}KX${Y}000000000d${R}"
+l9="${G} lllllool${RED};l${W}N${B}dllllllllllld${W}N${Y}K000000000${R}"
+l10="${G} lllllllll${RED}o${W}M${B}dccccccccccco${W}W${Y}K000000000${R}"
+l11="${G} ;cllllllllX${W}X${B}c:::::::::c${W}0X${Y}000000000d${R}"
+l12="${G} .ccccllllllO${W}Nk${B}c;,,,;cx${W}KK${Y}0000000000.${R}"
+l13="${G}  .cccccclllllxOO${W}OOO${G}Okx${Y}O0000000000;${R}"
+l14="${G}   .:ccccccccllllllllo${Y}O0000000OOO,${R}"
+l15="${G}     ,:ccccccccclllcd${Y}0000OOOOOOl.${R}"
+l16="${G}       '::ccccccccc${Y}dOOOOOOOkx:.${R}"
+l17="${G}         ..,::cccc${Y}xOOOkkko;.${R}"
+l18="${G}             ..,:${Y}dOkxl:.${R}"
+
+row "$l1"  "$W" "$user@$host"
+row "$l2"  "$W" "------------------------"
+row "$l3"  "$B" "OS: $os_name $os_version ($arch)"
+row "$l4"  "$B" "Host: $hwid"
+row "$l5"  "$G" "Kernel: $kernel"
+row "$l6"  "$G" "Uptime: $uptime"
+row "$l7"  "$Y" "Shell: $shell_name"
+row "$l8"  "$Y" "CPU: $cpu"
+row "$l9"  "$C" "GPU: $gpu"
+row "$l10" "$C" "Memory: $memory"
+row "$l11" "$B" "Display: $displays"
+row "$l12" "$B" "Battery: $battery"
+row "$l13" "$G" "Disk: $disk"
+row "$l14" "$R" ""
+row "$l15" "$R" ""
+row "$l16" "$R" ""
+row "$l17" "$R" ""
+row "$l18" "$R" ""
